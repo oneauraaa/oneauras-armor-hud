@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "oneauras-armor-hud",
+	"version": "${version}",
+	"name": "oneaura's Armor HUD",
+	"description": "A highly customizable Armor HUD mod.",
+	"authors": [
+		"oneaura"
+	],
+	"contact": {
+		"sources": "https://github.com/oneauraaa/oneauras-armor-hud"
+	},
+	"license": "MIT",
+	"icon": "assets/oneauras-armor-hud/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"oneaura.armorhud.OneaurasArmorHUD"
+		],
+		"client": [
+			"oneaura.armorhud.OneaurasArmorHUDClient"
+		],
+		"modmenu": [
+			"oneaura.armorhud.config.ArmorHudModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"oneauras-armor-hud.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"cloth-config": ">=21.11.153+fabric"
+	},
+	"suggests": {
+		"modmenu": ">=15.0.0"
+	}
+}
