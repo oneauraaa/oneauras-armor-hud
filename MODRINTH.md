@@ -1,39 +1,61 @@
 # oneaura's Armor HUD
 
-A lightweight, highly customizable armor and item durability HUD for Minecraft.
+A highly customizable armor and item durability HUD mod for Minecraft 1.21.10-11.
 
-## ✨ Key Features
+![Fabric](https://img.shields.io/badge/Fabric-1.21.11-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-🎯 **Flexible Positioning** - Drag anywhere or anchor to any corner  
-🎨 **Full Customization** - Colors, spacing, text alignment, and more  
-🛡️ **Selective Display** - Toggle individual armor slots and hand items  
-⚠️ **Low Durability Warning** - Configurable threshold with custom warning color  
-💾 **Persistent Settings** - All preferences saved automatically  
+## Features
 
-## 📋 Display Options
+### 🎯 Positioning
+- **Drag & Drop** - Click "Move HUD" to drag the HUD anywhere on screen
+- **Manual Coordinates** - Fine-tune X/Y position with exact pixel values
+- **Screen Anchor** - Lock to any corner: Top-Left, Top-Right, Bottom-Left, Bottom-Right
+- **Scaling** - Adjust HUD size (note: currently disabled due to API compatibility)
 
-- Show durability as **value** or **percentage**
-- **Horizontal** or **vertical** layout
-- Optional **background** with transparency
-- **Dynamic color** that changes based on durability
-- Hide items at **full durability**
-- **Hide in creative** mode
+### 🎨 Appearance
+- **Text Color** - Customize with hex colors like `#FFFFFF`
+- **Dynamic Color** - Automatically changes from green to red based on durability
+- **Background** - Optional semi-transparent background behind items
+- **Background Color** - Full ARGB support with `#AARRGGBB` format
+- **Text Shadow** - Toggle shadow on durability text
+- **Item Spacing** - Adjust space between items
 
-## 🎨 Customization
+### 📊 Display Options
+- **Damage Display** - Show durability as value (156) or percentage (62%)
+- **Text Alignment** - Position text: Left, Right, Top, or Bottom of items
+- **List Mode** - Horizontal (side by side) or Vertical (stacked)
+- **Show Durability** - Toggle durability numbers
+- **Show Max Durability** - Display as current/max (e.g., 156/250)
+- **Damage Bar** - Toggle vanilla durability bar overlay
+- **Item Name** - Optionally show item names
 
-- Hex color support (`#FFFFFF`)
-- Individual armor slot toggles
-- Main hand & offhand support
-- Text shadow toggle
-- Configurable spacing
+### 🛡️ Item Selection
+- **Individual Armor Toggles** - Show/hide Helmet, Chestplate, Leggings, Boots separately
+- **Main Hand** - Include held item in HUD
+- **Offhand** - Include offhand item
+- **Require Damageable** - Only show hand items with durability
 
-## 📦 Requirements
+### ⚡ Advanced
+- **Hide When Full** - Only show damaged items
+- **Warning Threshold** - Set % to trigger warning color (default: 20%)
+- **Warning Color** - Custom hex color for low durability warning
+- **Reverse Order** - Flip the display order
+- **Hide in Creative** - Automatically hide HUD in creative mode
+- **Master Toggle** - Quickly enable/disable entire HUD
 
-- Fabric Loader 0.16.14+
-- Fabric API
-- Cloth Config
-- Mod Menu (recommended)
+## Installation
 
----
+1. Install [Fabric Loader](https://fabricmc.net/) for Minecraft 1.21.11
+2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
+3. Install [Cloth Config](https://modrinth.com/mod/cloth-config)
+4. Install [Mod Menu](https://modrinth.com/mod/modmenu) (recommended)
+5. Drop the mod JAR into your `mods` folder
 
-Customize every aspect of your armor HUD exactly how you want it!
+## Dependencies
+
+- **Fabric Loader** 0.16.14+
+- **Fabric API**
+- **Cloth Config** (for configuration screen)
+- **Mod Menu** (optional, for easy config access)
+
