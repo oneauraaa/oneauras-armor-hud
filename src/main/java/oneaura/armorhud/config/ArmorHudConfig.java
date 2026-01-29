@@ -82,7 +82,7 @@ public class ArmorHudConfig {
 
         // Advanced Options
         public static boolean hideWhenFull = false; // Hide items at full durability
-        public static int warningThreshold = 20; // % durability to trigger warning
+        public static int warningThreshold = 20; // % durability to trigger warning color
         public static String warningColor = "#FF5555"; // Red warning color
         public static boolean reverseOrder = false; // Reverse display order
         public static boolean textShadow = true; // Draw text with shadow
@@ -90,6 +90,10 @@ public class ArmorHudConfig {
         public static String backgroundColor = "#80000000"; // Semi-transparent black
         public static Anchor anchor = Anchor.TOP_LEFT; // Screen anchor position
         public static boolean enabled = true; // Master toggle
+
+        // Sound Warning
+        public static boolean enableSoundWarning = true; // Play sound when durability is low
+        public static int soundWarningThreshold = 100; // Durability value to trigger sound
 
         // ==================== HEX COLOR PARSING ====================
 
@@ -156,6 +160,8 @@ public class ArmorHudConfig {
                 data.backgroundColor = backgroundColor;
                 data.anchor = anchor.name();
                 data.enabled = enabled;
+                data.enableSoundWarning = enableSoundWarning;
+                data.soundWarningThreshold = soundWarningThreshold;
 
                 try {
                         Files.writeString(CONFIG_PATH, GSON.toJson(data));
@@ -208,6 +214,8 @@ public class ArmorHudConfig {
                         backgroundColor = data.backgroundColor;
                         anchor = parseEnum(Anchor.class, data.anchor, Anchor.TOP_LEFT);
                         enabled = data.enabled;
+                        enableSoundWarning = data.enableSoundWarning;
+                        soundWarningThreshold = data.soundWarningThreshold;
 
                         System.out.println("[ArmorHUD] Config loaded from " + CONFIG_PATH);
                 } catch (IOException e) {
@@ -447,6 +455,22 @@ public class ArmorHudConfig {
                                 .setSaveConsumer(newValue -> backgroundColor = newValue)
                                 .build());
 
+                advancedTab.addEntry(entryBuilder.startTextDescription(Text.literal("§6Sound Warning")).build());
+
+                advancedTab.addEntry(entryBuilder
+                                .startBooleanToggle(Text.literal("Enable Sound Warning"), enableSoundWarning)
+                                .setDefaultValue(true)
+                                .setTooltip(Text.literal("Play a sound when item durability is low"))
+                                .setSaveConsumer(newValue -> enableSoundWarning = newValue)
+                                .build());
+
+                advancedTab.addEntry(entryBuilder
+                                .startIntSlider(Text.literal("Sound Warning Threshold"), soundWarningThreshold, 1, 500)
+                                .setDefaultValue(100)
+                                .setTooltip(Text.literal("Play sound when durability drops below this value"))
+                                .setSaveConsumer(newValue -> soundWarningThreshold = newValue)
+                                .build());
+
                 builder.setSavingRunnable(ArmorHudConfig::save);
 
                 return builder.build();
@@ -486,5 +510,7 @@ public class ArmorHudConfig {
                 String backgroundColor = "#80000000";
                 String anchor = "TOP_LEFT";
                 boolean enabled = true;
+                boolean enableSoundWarning = true;
+                int soundWarningThreshold = 100;
         }
 }

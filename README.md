@@ -40,6 +40,8 @@ A highly customizable armor and item durability HUD mod for Minecraft 1.21.11 (F
 - **Hide When Full** - Only show damaged items
 - **Warning Threshold** - Set % to trigger warning color (default: 20%)
 - **Warning Color** - Custom hex color for low durability warning
+- **Sound Warning** - Play alert sound when durability drops below threshold
+- **Sound Warning Threshold** - Set durability value to trigger sound (default: 100)
 - **Reverse Order** - Flip the display order
 - **Hide in Creative** - Automatically hide HUD in creative mode
 - **Master Toggle** - Quickly enable/disable entire HUD

@@ -8,13 +8,21 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvents;
 import oneaura.armorhud.config.ArmorHudConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class OneaurasArmorHUDClient implements ClientModInitializer {
+
+    // Track items that have triggered warning to avoid spam
+    private static final Set<String> warnedItems = new HashSet<>();
+    private static long lastSoundTime = 0;
+    private static final long SOUND_COOLDOWN_MS = 5000; // 5 second cooldown
 
     @Override
     public void onInitializeClient() {
@@ -110,6 +118,11 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
         if (itemsToDraw.isEmpty()) {
             // context.getMatrices().pop();
             return;
+        }
+
+        // Sound warning check
+        if (ArmorHudConfig.enableSoundWarning) {
+            checkAndPlayWarningSound(client, itemsToDraw);
         }
 
         TextRenderer textRenderer = client.textRenderer;
@@ -260,5 +273,39 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
         // Dynamic: Green -> Red
         float f = Math.max(0.0F, (float) remaining / (float) max);
         return net.minecraft.util.math.MathHelper.hsvToRgb(f / 3.0F, 1.0F, 1.0F) | 0xFF000000;
+    }
+
+    private static void checkAndPlayWarningSound(MinecraftClient client, List<ItemStack> items) {
+        long now = System.currentTimeMillis();
+
+        // Cooldown check
+        if (now - lastSoundTime < SOUND_COOLDOWN_MS) {
+            return;
+        }
+
+        for (ItemStack stack : items) {
+            if (!stack.isDamageable())
+                continue;
+
+            int remaining = stack.getMaxDamage() - stack.getDamage();
+            String itemId = stack.getItem().toString();
+
+            if (remaining <= ArmorHudConfig.soundWarningThreshold) {
+                // Check if we already warned about this item at this durability level
+                String key = itemId + "_" + remaining;
+                if (!warnedItems.contains(key)) {
+                    // Play warning sound
+                    if (client.player != null) {
+                        client.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.5f, 1.5f);
+                    }
+                    warnedItems.add(key);
+                    lastSoundTime = now;
+                    return; // Only one sound per check
+                }
+            } else {
+                // Clear warnings for this item if durability is back above threshold
+                warnedItems.removeIf(k -> k.startsWith(itemId + "_"));
+            }
+        }
     }
 }
