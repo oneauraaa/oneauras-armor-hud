@@ -57,6 +57,17 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
         if (ArmorHudConfig.hideInCreative && client.player.isCreative())
             return;
 
+        // Only show when holding shift
+        if (ArmorHudConfig.onlyWhenShift) {
+            long handle = client.getWindow().getHandle();
+            boolean shiftHeld = org.lwjgl.glfw.GLFW.glfwGetKey(handle,
+                    org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT) == org.lwjgl.glfw.GLFW.GLFW_PRESS
+                    || org.lwjgl.glfw.GLFW.glfwGetKey(handle,
+                            org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT) == org.lwjgl.glfw.GLFW.GLFW_PRESS;
+            if (!shiftHeld)
+                return;
+        }
+
         // Scale Logic REMOVED FOR COMPATIBILITY
         // float scale = ArmorHudConfig.scale;
         // context.getMatrices().push();
@@ -294,9 +305,21 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
                 // Check if we already warned about this item at this durability level
                 String key = itemId + "_" + remaining;
                 if (!warnedItems.contains(key)) {
-                    // Play warning sound
-                    if (client.player != null) {
-                        client.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.5f, 1.5f);
+                    // Play warning sound based on setting
+                    if (client.player != null && ArmorHudConfig.warningSound != ArmorHudConfig.WarningSound.NONE) {
+                        switch (ArmorHudConfig.warningSound) {
+                            case ANVIL:
+                                client.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.5f, 1.5f);
+                                break;
+                            case EXPERIENCE:
+                                client.player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5f, 0.5f);
+                                break;
+                            case NOTE:
+                                client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 0.5f, 0.5f);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     warnedItems.add(key);
                     lastSoundTime = now;

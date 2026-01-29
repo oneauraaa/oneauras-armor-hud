@@ -42,9 +42,12 @@ A highly customizable armor and item durability HUD mod for Minecraft 1.21.11 (F
 - **Warning Color** - Custom hex color for low durability warning
 - **Sound Warning** - Play alert sound when durability drops below threshold
 - **Sound Warning Threshold** - Set durability value to trigger sound (default: 100)
+- **Warning Sound** - Choose sound type: Anvil, Experience, Note, or None
 - **Reverse Order** - Flip the display order
 - **Hide in Creative** - Automatically hide HUD in creative mode
 - **Master Toggle** - Quickly enable/disable entire HUD
+- **Show Enchant Glint** - Display shimmer effect on enchanted items
+- **Only When Holding Shift** - HUD only visible while shift is held
 
 ## Configuration
 

@@ -42,6 +42,10 @@ public class ArmorHudConfig {
                 TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
         }
 
+        public enum WarningSound {
+                ANVIL, EXPERIENCE, NOTE, NONE
+        }
+
         // ==================== CONFIG VALUES ====================
 
         // Positions (Absolute Top-Left)
@@ -94,6 +98,11 @@ public class ArmorHudConfig {
         // Sound Warning
         public static boolean enableSoundWarning = true; // Play sound when durability is low
         public static int soundWarningThreshold = 100; // Durability value to trigger sound
+        public static WarningSound warningSound = WarningSound.ANVIL; // Sound type
+
+        // Extra Options
+        public static boolean showEnchantGlint = true; // Show enchantment glint on items
+        public static boolean onlyWhenShift = false; // Only show HUD when holding shift
 
         // ==================== HEX COLOR PARSING ====================
 
@@ -162,6 +171,9 @@ public class ArmorHudConfig {
                 data.enabled = enabled;
                 data.enableSoundWarning = enableSoundWarning;
                 data.soundWarningThreshold = soundWarningThreshold;
+                data.warningSound = warningSound.name();
+                data.showEnchantGlint = showEnchantGlint;
+                data.onlyWhenShift = onlyWhenShift;
 
                 try {
                         Files.writeString(CONFIG_PATH, GSON.toJson(data));
@@ -216,6 +228,9 @@ public class ArmorHudConfig {
                         enabled = data.enabled;
                         enableSoundWarning = data.enableSoundWarning;
                         soundWarningThreshold = data.soundWarningThreshold;
+                        warningSound = parseEnum(WarningSound.class, data.warningSound, WarningSound.ANVIL);
+                        showEnchantGlint = data.showEnchantGlint;
+                        onlyWhenShift = data.onlyWhenShift;
 
                         System.out.println("[ArmorHUD] Config loaded from " + CONFIG_PATH);
                 } catch (IOException e) {
@@ -471,6 +486,29 @@ public class ArmorHudConfig {
                                 .setSaveConsumer(newValue -> soundWarningThreshold = newValue)
                                 .build());
 
+                advancedTab.addEntry(entryBuilder
+                                .startEnumSelector(Text.literal("Warning Sound"), WarningSound.class, warningSound)
+                                .setDefaultValue(WarningSound.ANVIL)
+                                .setTooltip(Text.literal("Sound to play for low durability warning"))
+                                .setSaveConsumer(newValue -> warningSound = newValue)
+                                .build());
+
+                advancedTab.addEntry(entryBuilder.startTextDescription(Text.literal("§6Extra Options")).build());
+
+                advancedTab.addEntry(entryBuilder
+                                .startBooleanToggle(Text.literal("Show Enchant Glint"), showEnchantGlint)
+                                .setDefaultValue(true)
+                                .setTooltip(Text.literal("Show enchantment shimmer effect on enchanted items"))
+                                .setSaveConsumer(newValue -> showEnchantGlint = newValue)
+                                .build());
+
+                advancedTab.addEntry(entryBuilder
+                                .startBooleanToggle(Text.literal("Only When Holding Shift"), onlyWhenShift)
+                                .setDefaultValue(false)
+                                .setTooltip(Text.literal("Only show HUD when holding the shift key"))
+                                .setSaveConsumer(newValue -> onlyWhenShift = newValue)
+                                .build());
+
                 builder.setSavingRunnable(ArmorHudConfig::save);
 
                 return builder.build();
@@ -512,5 +550,8 @@ public class ArmorHudConfig {
                 boolean enabled = true;
                 boolean enableSoundWarning = true;
                 int soundWarningThreshold = 100;
+                String warningSound = "ANVIL";
+                boolean showEnchantGlint = true;
+                boolean onlyWhenShift = false;
         }
 }
