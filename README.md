@@ -10,8 +10,6 @@ A highly customizable armor and item durability HUD mod for Minecraft 1.21.11 (F
 ### 🎯 Positioning
 - **Drag & Drop** - Click "Move HUD" to drag the HUD anywhere on screen
 - **Manual Coordinates** - Fine-tune X/Y position with exact pixel values
-- **Screen Anchor** - Lock to any corner: Top-Left, Top-Right, Bottom-Left, Bottom-Right
-- **Scaling** - Adjust HUD size (note: currently disabled due to API compatibility)
 
 ### 🎨 Appearance
 - **Text Color** - Customize with hex colors like `#FFFFFF`

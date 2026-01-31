@@ -138,29 +138,9 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
 
         TextRenderer textRenderer = client.textRenderer;
 
-        // Calculate position based on anchor
-        int screenWidth = context.getScaledWindowWidth();
-        int screenHeight = context.getScaledWindowHeight();
-
+        // Simple x/y positioning
         int x = ArmorHudConfig.x;
         int y = ArmorHudConfig.y;
-
-        // Adjust position based on anchor
-        switch (ArmorHudConfig.anchor) {
-            case TOP_LEFT:
-                // x and y are offsets from top-left (default)
-                break;
-            case TOP_RIGHT:
-                x = screenWidth - ArmorHudConfig.x - 16; // 16 = item size
-                break;
-            case BOTTOM_LEFT:
-                y = screenHeight - ArmorHudConfig.y - 16;
-                break;
-            case BOTTOM_RIGHT:
-                x = screenWidth - ArmorHudConfig.x - 16;
-                y = screenHeight - ArmorHudConfig.y - 16;
-                break;
-        }
 
         // Calculate Direction steps
         int stepX = 0;
@@ -168,19 +148,9 @@ public class OneaurasArmorHUDClient implements ClientModInitializer {
 
         if (ArmorHudConfig.listMode == ArmorHudConfig.ListMode.HORIZONTAL) {
             stepX = 16 + ArmorHudConfig.itemSpace;
-            // Reverse direction for right-anchored
-            if (ArmorHudConfig.anchor == ArmorHudConfig.Anchor.TOP_RIGHT
-                    || ArmorHudConfig.anchor == ArmorHudConfig.Anchor.BOTTOM_RIGHT) {
-                stepX = -stepX;
-            }
         } else {
             // Vertical Stack
             stepY = 16 + ArmorHudConfig.itemSpace;
-            // Reverse direction for bottom-anchored
-            if (ArmorHudConfig.anchor == ArmorHudConfig.Anchor.BOTTOM_LEFT
-                    || ArmorHudConfig.anchor == ArmorHudConfig.Anchor.BOTTOM_RIGHT) {
-                stepY = -stepY;
-            }
         }
 
         for (ItemStack stack : itemsToDraw) {

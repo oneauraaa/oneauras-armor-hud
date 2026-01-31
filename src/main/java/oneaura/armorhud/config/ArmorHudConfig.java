@@ -38,10 +38,6 @@ public class ArmorHudConfig {
                 HORIZONTAL, VERTICAL
         }
 
-        public enum Anchor {
-                TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
-        }
-
         public enum WarningSound {
                 ANVIL, EXPERIENCE, NOTE, NONE
         }
@@ -92,7 +88,6 @@ public class ArmorHudConfig {
         public static boolean textShadow = true; // Draw text with shadow
         public static boolean hideInCreative = false; // Hide HUD in creative mode
         public static String backgroundColor = "#80000000"; // Semi-transparent black
-        public static Anchor anchor = Anchor.TOP_LEFT; // Screen anchor position
         public static boolean enabled = true; // Master toggle
 
         // Sound Warning
@@ -167,7 +162,6 @@ public class ArmorHudConfig {
                 data.textShadow = textShadow;
                 data.hideInCreative = hideInCreative;
                 data.backgroundColor = backgroundColor;
-                data.anchor = anchor.name();
                 data.enabled = enabled;
                 data.enableSoundWarning = enableSoundWarning;
                 data.soundWarningThreshold = soundWarningThreshold;
@@ -224,7 +218,6 @@ public class ArmorHudConfig {
                         textShadow = data.textShadow;
                         hideInCreative = data.hideInCreative;
                         backgroundColor = data.backgroundColor;
-                        anchor = parseEnum(Anchor.class, data.anchor, Anchor.TOP_LEFT);
                         enabled = data.enabled;
                         enableSoundWarning = data.enableSoundWarning;
                         soundWarningThreshold = data.soundWarningThreshold;
@@ -290,13 +283,6 @@ public class ArmorHudConfig {
                 positionTab.addEntry(entryBuilder.startFloatField(Text.literal("Scale"), scale)
                                 .setDefaultValue(1.0f)
                                 .setSaveConsumer(newValue -> scale = newValue)
-                                .build());
-
-                positionTab.addEntry(entryBuilder
-                                .startEnumSelector(Text.literal("Screen Anchor"), Anchor.class, anchor)
-                                .setDefaultValue(Anchor.TOP_LEFT)
-                                .setTooltip(Text.literal("Corner of screen to anchor HUD position"))
-                                .setSaveConsumer(newValue -> anchor = newValue)
                                 .build());
 
                 positionTab.addEntry(entryBuilder.startBooleanToggle(Text.literal("HUD Enabled"), enabled)
@@ -546,7 +532,6 @@ public class ArmorHudConfig {
                 boolean textShadow = true;
                 boolean hideInCreative = false;
                 String backgroundColor = "#80000000";
-                String anchor = "TOP_LEFT";
                 boolean enabled = true;
                 boolean enableSoundWarning = true;
                 int soundWarningThreshold = 100;
